@@ -1,0 +1,8 @@
+documentation/*.aux
+documentation/*.fdb_latexmk
+documentation/*.fls
+documentation/*.log
+documentation/*.synctex.gz
+documentation/*.xdv
+
+.DS_Store
