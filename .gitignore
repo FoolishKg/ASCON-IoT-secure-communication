@@ -4,5 +4,5 @@ documentation/*.fls
 documentation/*.log
 documentation/*.synctex.gz
 documentation/*.xdv
-
+documentation/*.pdf
 .DS_Store
