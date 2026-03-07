@@ -2,12 +2,12 @@
 
 An implementation of secure, authenticated end-to-end communication between IoT nodes using the ASCON-128 (AEAD) lightweight cryptographic cipher. Designed for resource-constrained hardware like the ESP32.
 
-==============================================================================
+============================================================================
 🚀 Overview
 
 This project demonstrates a secure pipeline for transmitting sensitive sensor data across a Wi-Fi network. By utilizing Authenticated Encryption with Associated Data (AEAD), we ensure that data is not only kept private but also protected against tampering and injection attacks.
 
-==============================================================================
+============================================================================
 🛠️ The Secure Pipeline
 1. Data Acquisition & Packetization
 
@@ -40,7 +40,7 @@ Node B (The Receiver) receives the packet and attempts to decrypt it.
     Success: If the Tag matches, the data is unpacked and forwarded (e.g., to a Serial Dashboard or Database).
 
     Failure: If the Tag does not match, the packet is dropped immediately. This prevents "Replay Attacks" or corrupted data from affecting the system.
-==============================================================================
+============================================================================
 📊 Performance Evaluation
 
 One of the primary goals of this project is to measure the overhead of lightweight cryptography on embedded systems.
