@@ -52,12 +52,15 @@ To minimize the cryptographic surface and transmission energy, data is packed in
 \caption{Binary Payload Structure for Sensor Telemetry.}
 \label{tab_packet}
 \centering
-\begin{tabular}{@{}llll@{}}
+\setlength{\tabcolsep}{10pt} % increase column spacing
+\begin{tabular}{l l c l}
 \toprule
-\textbf{Field} & \textbf{Type} & \textbf{Size (Bytes)} & \textbf{Description} \\ \midrule
-SensorID & uint8\_t & 1 & Hardware Identifier \\
-Temperature & float & 4 & IEEE 754 Floating Point \\
-Timestamp & uint32\_t & 4 & Unix Epoch/Sequence \\ \bottomrule
+\textbf{Field} & \textbf{Type} & \textbf{Size (Bytes)} & \textbf{Description} \\ 
+\midrule
+SensorID    & uint8\_t  & 1 & Hardware Identifier \\
+Temperature & float     & 4 & IEEE 754 Floating Point \\
+Timestamp   & uint32\_t & 4 & Unix Epoch / Sequence \\ 
+\bottomrule
 \end{tabular}
 \end{table}
 
