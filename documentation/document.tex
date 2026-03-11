@@ -11,36 +11,44 @@
 
 \begin{document}
 
-\title{Secure Sensor Communication in IoT using ASCON-128 Lightweight Cryptography}
+\title{Ασφαλής επικοινωνία μεταξύ σενσώρων σε περιβάλλον Διαδύκτιου των πραγμάτων (IoT) με χρήση ελαφριάς κρυπτογραφίας μέσου του ASCON-128}
 
-% Professional naming convention: Use Latin characters for the main author 
-% and include the Greek name in the institution or a footnote if required.
-\author{Konstantinos Gkyllis} 
+\author{Κωνσταντίνος Γκύλλης} 
 
-\authorrunning{K. Gkyllis}
+\authorrunning{K.Γκύλλης}
 
-\institute{Department of Electrical and Computer Engineering \\
+\institute{Τμήμα Μηχανικών Η/Υ και πληροφορικής(CEID)\\
 University of Patras, 26504, Greece \\
-\email{your.email@example.com}} % Optional: adding an email looks very professional
+\email{up1100526@ac.upatras.gr}}
 
 \maketitle
 
 \begin{abstract}
-The proliferation of Internet of Things (IoT) devices has introduced significant security vulnerabilities, particularly in resource-constrained environments. Traditional cryptographic primitives often impose prohibitive computational costs. This work implements a secure communication pipeline using the ASCON-128 AEAD algorithm on ESP32-based nodes. We demonstrate a complete lifecycle of sensor data: from binary packetization and authenticated encryption to secure UDP transmission. Our results indicate that ASCON-128 provides a viable balance between robust security (confidentiality and integrity) and the stringent power/performance requirements of embedded hardware.
+Με την άνοδο του Διαδικτύου των Πραγμάτων (IoT), οι συσκευές έχουν να αντιμετωπίσουν μια μεγάλη πρόκληση που είναι η μη-ασφαλής επικοινωνία, 
+με βασική αιτία την έλλειψη πόρων. Τα παραδοσιακά συστήματα κρυπτογραφίας απαιτούν τη χρήση μεγάλου ποσοστού της υπολογιστικής ισχύος για την κρυπτογράφηση 
+και την αποκρυπτογράφηση. Έτσι, σκοπός αυτής της εργασίας είναι να καταρρίψουμε αυτήν την αντίληψη και να υλοποιήσουμε μια σειρά από διεργασίες (pipeline) κάνοντας 
+χρήση του αλγορίθμου ASCON-128, προσομοιώνοντας μια ασφαλή επικοινωνία μεταξύ δύο κόμβων (nodes) βασισμένων στην πλατφόρμα ESP32. 
+Πιο αναλυτικά, θα υλοποιηθεί ένας ολοκληρωμένος κύκλος επικοινωνίας μεταξύ των δύο κόμβων: από τη συλλογή δεδομένων του αισθητήρα και τη δημιουργία δυαδικών πακέτων (binary packetization), 
+έως την πιστοποιημένη κρυπτογράφηση (authenticated encryption) και την ασφαλή μετάδοση μέσω πρωτοκόλλου UDP. Τα αποτελέσματά μας δείχνουν ότι ο ASCON-128 παρέχει μια βιώσιμη ισορροπία μεταξύ 
+ισχυρής ασφάλειας (εμπιστευτικότητα και ακεραιότητα) και των αυστηρών απαιτήσεων ενέργειας και απόδοσης του ενσωματωμένου υλικού (embedded hardware).
 
-\keywords{IoT Security \and Lightweight Cryptography \and ASCON-128 \and AEAD \and ESP32.}
+\keywords{Ασφάλεια στο Διαδίκτυο των Πραγμάτων (IoT) \and Ελαφριά Κρυπτογραφία \and ASCON-128 \and AEAD \and ESP32}
 \end{abstract}
 
 \section{Introduction}
-The Internet of Things (IoT) ecosystem relies on the seamless exchange of data across distributed networks. However, the hardware powering these nodes often lacks the resources to execute standard TLS/SSL stacks efficiently. As a result, lightweight cryptography (LWC) has become a critical area of research.
 
-ASCON-128, the winner of the NIST Lightweight Cryptography competition, offers Authenticated Encryption with Associated Data (AEAD). This paper details the implementation of ASCON-128 to secure environmental telemetry between two ESP32 microcontrollers.
+Το οικοσύστημα του Διαδικτύου των Πραγμάτων (IoT) βασίζεται στην απρόσκοπτη ανταλλαγή πληροφοριών μέσα από κατανεμημένα δίκτυα επικοινωνίας. Ωστόσο, το υλικό (hardware) πάνω στο οποίο βασίζονται 
+οι κόμβοι επικοινωνίας συχνά στερείται των απαραίτητων υπολογιστικών πόρων για την αποδοτική εκτέλεση καθιερωμένων πρωτοκόλλων ασφαλείας, όπως το TLS/SSL. Ως αποτέλεσμα, η ελαφριά κρυπτογραφία (lightweight cryptography) 
+αναδεικνύεται ως ένας κρίσιμος τομέας με τεράστια εφαρμογή σε τέτοιου είδους περιορισμένα περιβάλλοντα.
+
+Ο αλγόριθμος ASCON-128, ο οποίος αναδείχθηκε νικητής στον διαγωνισμό του οργανισμού NIST για την Ελαφριά Κρυπτογραφία χάρη στις εξαιρετικά χαμηλές απαιτήσεις του σε πόρους, προσφέρει Πιστοποιημένη Κρυπτογράφηση με Σχετιζόμενα Δεδομένα (Authenticated Encryption with Associated Data - AEAD). 
+Η παρούσα εργασία περιγράφει λεπτομερώς την υλοποίηση του ASCON-128 με σκοπό την ασφαλή μετάδοση περιβαλλοντικής τηλεμετρίας μεταξύ δύο μικροελεγκτών ESP32.
 
 \section{System Architecture}
-The architecture follows a Producer-Consumer model optimized for low-latency transmission:
+Η αρχιτεκτονική η οποία επιλέχθηκε για το μοντέλο της εργασία είναι σχεδιασμένη για μεταφορές με χαμηλή καθυστέρηση και εμπεριέχει 2 κόμβους της μορφής Παραγωγός και Καταναλωτής:
 \begin{itemize}
-    \item \textbf{Node A (Producer):} Responsible for I2C/SPI data acquisition and ASCON-128 encryption.
-    \item \textbf{Node B (Sink):} Responsible for tag verification, decryption, and data logging.
+    \item \textbf{Node A (Producer):} Υπεύθυνος για την εξαφάληση των δεδομέων I2C/SPI και την κρυπτογράφηση με τον ASCON-128.
+    \item \textbf{Node B (Sink):} Υπεύθυνος για την επιβεβαίωση της ετικέτας των δεδομένων, αποκρυπτογράφηση (decryption) και την καταγραφή των δεδομένων σε κάποιο εξωτερικό διακομιστή (server).
 \end{itemize}
 
 
